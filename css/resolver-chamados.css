@@ -1,0 +1,332 @@
+/* ============================================
+   resolver-chamados.css - Estilos da tela de resolução de chamados
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+}
+
+body {
+    background: #f0f4fa;
+    padding: 2rem 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 1100px;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 1.2rem 2rem;
+    border-radius: 32px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    color: #0b1a33;
+}
+
+.header h1 i {
+    color: #1a5cff;
+    margin-right: 0.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.btn-outline {
+    background: #eef2f7;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    color: #1f334a;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-outline:hover {
+    background: #dce3ec;
+}
+
+.btn-primary {
+    background: #1a5cff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background: #0f4ad6;
+}
+
+.btn-success {
+    background: #10b981;
+    color: #fff;
+    border: none;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.filters select,
+.filters input {
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    border: 1.5px solid #dce3ec;
+    background: #fafcff;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.filters label {
+    font-weight: 600;
+    color: #1f334a;
+}
+
+.chamados-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chamado-item {
+    background: #fff;
+    border-radius: 20px;
+    padding: 1.2rem 1.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+    border-left: 6px solid #1a5cff;
+}
+
+.chamado-item.resolvido {
+    border-left-color: #10b981;
+    opacity: 0.7;
+}
+
+.chamado-info {
+    flex: 2;
+    min-width: 200px;
+}
+
+.chamado-info strong {
+    font-size: 1.1rem;
+    color: #0b1a33;
+}
+
+.chamado-info .meta {
+    font-size: 0.85rem;
+    color: #4a637f;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+.chamado-info .meta span {
+    background: #eef2f7;
+    padding: 0.1rem 0.6rem;
+    border-radius: 20px;
+}
+
+.chamado-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.badge-status {
+    padding: 0.2rem 0.8rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.badge-aberto {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-resolvido {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: #fff;
+    max-width: 500px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal h2 {
+    margin-bottom: 1rem;
+    color: #0b1a33;
+}
+
+.modal .close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #4a637f;
+}
+
+.modal .form-group {
+    margin-bottom: 1rem;
+}
+
+.modal .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1f334a;
+    margin-bottom: 0.3rem;
+}
+
+.modal .form-group input,
+.modal .form-group select {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1.5px solid #dce3ec;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    background: #fafcff;
+    outline: none;
+}
+
+.modal .form-group input:focus,
+.modal .form-group select:focus {
+    border-color: #1a5cff;
+    box-shadow: 0 0 0 4px rgba(26, 92, 255, 0.12);
+}
+
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #0b1a33;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 60px;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0px);
+}
+
+@media (max-width: 700px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .header-actions {
+        justify-content: center;
+    }
+    .chamado-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+    }
+    .chamado-actions {
+        justify-content: flex-start;
+    }
+}
