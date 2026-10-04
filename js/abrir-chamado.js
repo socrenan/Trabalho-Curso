@@ -46,11 +46,42 @@
         window.toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
     }
 
+    // Mostra mensagem de erro abaixo de um campo
+    function showFieldError(field, message) {
+        const errorId = field.id + 'Error';
+        const errorSpan = document.getElementById(errorId);
+        if (errorSpan) {
+            errorSpan.textContent = message;
+            errorSpan.style.display = 'block';
+        }
+        field.style.borderColor = '#d1453b';
+    }
+
+    // Limpa mensagem de erro de um campo
+    function clearFieldError(field) {
+        const errorId = field.id + 'Error';
+        const errorSpan = document.getElementById(errorId);
+        if (errorSpan) {
+            errorSpan.textContent = '';
+            errorSpan.style.display = 'none';
+        }
+        field.style.borderColor = '';
+    }
+
+    // Limpa todos os erros visiveis
+    function clearAllErrors() {
+        document.querySelectorAll('.field-error').forEach(span => {
+            span.textContent = '';
+            span.style.display = 'none';
+        });
+        document.querySelectorAll('.form-group input, .form-group textarea, .form-group select')
+            .forEach(el => el.style.borderColor = '');
+    }
+
     function resetForm() {
         form.reset();
         fileName.textContent = 'nenhum arquivo';
-        document.querySelectorAll('.form-group input, .form-group textarea, .form-group select')
-            .forEach(el => el.style.borderColor = '');
+        clearAllErrors();
     }
 
     function generateTicketNumber() {
@@ -64,27 +95,26 @@
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
+        clearAllErrors();
 
         let valid = true;
         const requiredFields = [solicitante, email, titulo, descricao];
+
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
-                field.style.borderColor = '#d1453b';
+                showFieldError(field, 'Campo obrigatório.');
                 valid = false;
-            } else {
-                field.style.borderColor = '';
             }
         });
+
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.value.trim() && !emailPattern.test(email.value.trim())) {
-            email.style.borderColor = '#d1453b';
+            showFieldError(email, 'E-mail inválido. Verifique o formato.');
             valid = false;
-        } else if (email.value.trim()) {
-            email.style.borderColor = '';
         }
 
         if (!valid) {
-            showToast('Preencha todos os campos obrigatórios corretamente.', true);
+            showToast('Corrija os campos destacados antes de enviar.', true);
             return;
         }
 
@@ -121,10 +151,10 @@
     document.querySelectorAll('.form-group input, .form-group textarea, .form-group select')
         .forEach(el => {
             el.addEventListener('input', function() {
-                if (this.value.trim()) this.style.borderColor = '';
+                if (this.value.trim()) clearFieldError(this);
             });
             el.addEventListener('change', function() {
-                if (this.value.trim()) this.style.borderColor = '';
+                if (this.value.trim()) clearFieldError(this);
             });
         });
 })();
