@@ -31,7 +31,8 @@
         fileName.textContent = this.files && this.files.length > 0 ? this.files[0].name : 'nenhum arquivo';
     });
 
-    function showToast(msg, isError = false) {
+    // Exibe notificação temporária no rodapé
+    function exibirNotificacao(msg, isError = false) {
         toastMessage.textContent = msg;
         toast.classList.add('show');
         const icon = toast.querySelector('i');
@@ -47,7 +48,7 @@
     }
 
     // Mostra mensagem de erro abaixo de um campo
-    function showFieldError(field, message) {
+    function mostrarErroCampo(field, message) {
         const errorSpan = document.getElementById(field.id + 'Error');
         const checkIcon = document.getElementById(field.id + 'Check');
         if (errorSpan) {
@@ -60,7 +61,7 @@
     }
 
     // Marca campo como válido (borda verde + ícone de check)
-    function markFieldValid(field) {
+    function marcarCampoValido(field) {
         const errorSpan = document.getElementById(field.id + 'Error');
         const checkIcon = document.getElementById(field.id + 'Check');
         if (errorSpan) {
@@ -72,7 +73,7 @@
     }
 
     // Limpa todos os erros visíveis
-    function clearAllErrors() {
+    function limparErros() {
         document.querySelectorAll('.field-error').forEach(span => {
             span.textContent = '';
             span.style.display = 'none';
@@ -87,13 +88,15 @@
             });
     }
 
-    function resetForm() {
+    // Limpa o formulário e os erros
+    function limparFormulario() {
         form.reset();
         fileName.textContent = 'nenhum arquivo';
-        clearAllErrors();
+        limparErros();
     }
 
-    function generateTicketNumber() {
+    // Gera número único do chamado no formato TI-AAMMDD-XXX
+    function gerarNumeroChamado() {
         const now = new Date();
         const y = now.getFullYear().toString().slice(-2);
         const m = String(now.getMonth() + 1).padStart(2, '0');
@@ -104,34 +107,34 @@
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        clearAllErrors();
+        limparErros();
 
         let valid = true;
         const requiredFields = [solicitante, email, titulo, descricao];
 
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
-                showFieldError(field, 'Campo obrigatório.');
+                mostrarErroCampo(field, 'Campo obrigatório.');
                 valid = false;
             } else {
-                markFieldValid(field);
+                marcarCampoValido(field);
             }
         });
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.value.trim() && !emailPattern.test(email.value.trim())) {
-            showFieldError(email, 'E-mail inválido. Verifique o formato.');
+            mostrarErroCampo(email, 'E-mail inválido. Verifique o formato.');
             valid = false;
         }
 
         if (!valid) {
-            showToast('Corrija os campos destacados antes de enviar.', true);
+            exibirNotificacao('Corrija os campos destacados antes de enviar.', true);
             return;
         }
 
         const formData = {
             id: Date.now(),
-            numero: generateTicketNumber(),
+            numero: gerarNumeroChamado(),
             solicitante: solicitante.value.trim(),
             email: email.value.trim(),
             titulo: titulo.value.trim(),
@@ -156,13 +159,13 @@
         // Feedback de sucesso no botão por 2s
         btnSubmit.classList.add('success');
         btnSubmit.innerHTML = '<i class="fas fa-check"></i> Enviado!';
-        showToast(`Chamado ${formData.numero} aberto com sucesso!`);
+        exibirNotificacao(`Chamado ${formData.numero} aberto com sucesso!`);
 
         setTimeout(() => {
             btnSubmit.classList.remove('success');
             btnSubmit.disabled = false;
             btnSubmit.innerHTML = '<i class="fas fa-paper-plane"></i> Abrir Chamado';
-            resetForm();
+            limparFormulario();
         }, 2000);
     });
 
@@ -174,9 +177,9 @@
                     if (errorSpan && errorSpan.style.display === 'block') {
                         if (this.id === 'email') {
                             const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                            if (pattern.test(this.value.trim())) markFieldValid(this);
+                            if (pattern.test(this.value.trim())) marcarCampoValido(this);
                         } else {
-                            markFieldValid(this);
+                            marcarCampoValido(this);
                         }
                     }
                 }
@@ -185,9 +188,9 @@
                 if (this.value.trim()) {
                     if (this.id === 'email') {
                         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                        if (pattern.test(this.value.trim())) markFieldValid(this);
+                        if (pattern.test(this.value.trim())) marcarCampoValido(this);
                     } else {
-                        markFieldValid(this);
+                        marcarCampoValido(this);
                     }
                 }
             });
