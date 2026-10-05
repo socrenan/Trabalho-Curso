@@ -91,6 +91,7 @@ body {
 
 .form-group {
     margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .form-group label {
@@ -256,6 +257,35 @@ body {
     font-size: 0.82rem;
     margin-top: 0.3rem;
     font-weight: 500;
+}
+
+/* SA05 - Feedback visual de campo válido */
+.form-group input.valid,
+.form-group select.valid,
+.form-group textarea.valid {
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+}
+
+/* SA05 - Ícone de check ao lado direito do campo */
+.field-check {
+    position: absolute;
+    right: 1rem;
+    top: 2.6rem;
+    color: #10b981;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.field-check.show {
+    opacity: 1;
+}
+
+/* SA05 - Botão de sucesso (verde por 2s após envio) */
+.btn-submit.success {
+    background: #10b981 !important;
 }
 
 @media (max-width: 600px) {
