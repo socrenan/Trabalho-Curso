@@ -188,7 +188,7 @@ body {
 .btn-submit {
     width: 100%;
     padding: 0.9rem 1.5rem;
-    background: #1a5cff;
+    background: #1550e6;
     color: #fff;
     font-weight: 700;
     font-size: 1.1rem;
@@ -204,8 +204,8 @@ body {
 }
 
 .btn-submit:hover {
-    background: #0f4ad6;
-    box-shadow: 0 8px 20px -6px rgba(26, 92, 255, 0.4);
+    background: #0d3fc4;
+    box-shadow: 0 8px 20px -6px rgba(21, 80, 230, 0.4);
 }
 
 .btn-submit:active {
@@ -286,6 +286,20 @@ body {
 /* SA05 - Botão de sucesso (verde por 2s após envio) */
 .btn-submit.success {
     background: #10b981 !important;
+}
+
+/* SA05 - Acessibilidade: foco visível reforçado */
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible,
+.logout-btn:focus-visible,
+.btn-submit:focus-visible {
+    outline: 3px solid #1a5cff;
+    outline-offset: 2px;
+}
+
+.logout-btn:focus-visible {
+    background: #dce3ec;
 }
 
 @media (max-width: 600px) {
