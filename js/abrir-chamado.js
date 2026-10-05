@@ -48,34 +48,43 @@
 
     // Mostra mensagem de erro abaixo de um campo
     function showFieldError(field, message) {
-        const errorId = field.id + 'Error';
-        const errorSpan = document.getElementById(errorId);
+        const errorSpan = document.getElementById(field.id + 'Error');
+        const checkIcon = document.getElementById(field.id + 'Check');
         if (errorSpan) {
             errorSpan.textContent = message;
             errorSpan.style.display = 'block';
         }
+        if (checkIcon) checkIcon.classList.remove('show');
         field.style.borderColor = '#d1453b';
+        field.classList.remove('valid');
     }
 
-    // Limpa mensagem de erro de um campo
-    function clearFieldError(field) {
-        const errorId = field.id + 'Error';
-        const errorSpan = document.getElementById(errorId);
+    // Marca campo como válido (borda verde + ícone de check)
+    function markFieldValid(field) {
+        const errorSpan = document.getElementById(field.id + 'Error');
+        const checkIcon = document.getElementById(field.id + 'Check');
         if (errorSpan) {
             errorSpan.textContent = '';
             errorSpan.style.display = 'none';
         }
-        field.style.borderColor = '';
+        if (checkIcon) checkIcon.classList.add('show');
+        field.classList.add('valid');
     }
 
-    // Limpa todos os erros visiveis
+    // Limpa todos os erros visíveis
     function clearAllErrors() {
         document.querySelectorAll('.field-error').forEach(span => {
             span.textContent = '';
             span.style.display = 'none';
         });
+        document.querySelectorAll('.field-check').forEach(icon => {
+            icon.classList.remove('show');
+        });
         document.querySelectorAll('.form-group input, .form-group textarea, .form-group select')
-            .forEach(el => el.style.borderColor = '');
+            .forEach(el => {
+                el.style.borderColor = '';
+                el.classList.remove('valid');
+            });
     }
 
     function resetForm() {
@@ -104,6 +113,8 @@
             if (!field.value.trim()) {
                 showFieldError(field, 'Campo obrigatório.');
                 valid = false;
+            } else {
+                markFieldValid(field);
             }
         });
 
@@ -142,19 +153,43 @@
         btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
         await new Promise(resolve => setTimeout(resolve, 300));
 
+        // Feedback de sucesso no botão por 2s
+        btnSubmit.classList.add('success');
+        btnSubmit.innerHTML = '<i class="fas fa-check"></i> Enviado!';
         showToast(`Chamado ${formData.numero} aberto com sucesso!`);
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = '<i class="fas fa-paper-plane"></i> Abrir Chamado';
-        resetForm();
+
+        setTimeout(() => {
+            btnSubmit.classList.remove('success');
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="fas fa-paper-plane"></i> Abrir Chamado';
+            resetForm();
+        }, 2000);
     });
 
     document.querySelectorAll('.form-group input, .form-group textarea, .form-group select')
         .forEach(el => {
             el.addEventListener('input', function() {
-                if (this.value.trim()) clearFieldError(this);
+                if (this.value.trim()) {
+                    const errorSpan = document.getElementById(this.id + 'Error');
+                    if (errorSpan && errorSpan.style.display === 'block') {
+                        if (this.id === 'email') {
+                            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (pattern.test(this.value.trim())) markFieldValid(this);
+                        } else {
+                            markFieldValid(this);
+                        }
+                    }
+                }
             });
-            el.addEventListener('change', function() {
-                if (this.value.trim()) clearFieldError(this);
+            el.addEventListener('blur', function() {
+                if (this.value.trim()) {
+                    if (this.id === 'email') {
+                        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (pattern.test(this.value.trim())) markFieldValid(this);
+                    } else {
+                        markFieldValid(this);
+                    }
+                }
             });
         });
 })();
