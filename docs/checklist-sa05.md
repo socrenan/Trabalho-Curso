@@ -1,6 +1,6 @@
 # Checklist de Qualidade do Front-End – SA05
 
-**Aluno:** Renan d'Ávila dos Santos
+**Aluno:** Renan d'Avila dos Santos
 **Projeto:** Sistema de Chamados TI – MVP
 **Repositório:** https://github.com/socrenan/Trabalho-Curso
 
